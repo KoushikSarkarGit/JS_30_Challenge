@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS + CSS Clock</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
 
-    <div class="clock">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+      <div class="timeIndicator">
+        <div class="nums">1</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">2</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">3</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">4</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">5</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">6</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">7</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">8</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">9</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">10</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">11</div>
+      </div>
+      <div class="timeIndicator">
+        <div class="nums">12</div>
       </div>
     </div>
+  </div>
 
 
   <style>
@@ -35,6 +73,23 @@
       align-items: center;
     }
 
+    .timeIndicator {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: absolute;
+      width: 50%;
+      height: 6px;
+      transform-origin: 100%;
+      top: 50%;
+
+    }
+
+    .nums {
+      color: white;
+
+    }
+
     .clock {
       width: 30rem;
       height: 30rem;
@@ -44,32 +99,88 @@
       position: relative;
       padding: 2rem;
       box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
+        0 0 0 4px rgba(0, 0, 0, 0.1),
         inset 0 0 0 3px #EFEFEF,
         inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
+        0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     .clock-face {
       position: relative;
       width: 100%;
       height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
+      transform: translateY(-3px);
+      /* account for the height of the clock hands */
     }
 
     .hand {
       width: 50%;
       height: 6px;
       background: black;
+      border-radius: 5px 0px 0px 5px;
       position: absolute;
+      z-index: 11;
       top: 50%;
+      transform-origin: 100%;
+      transition: all 0ms;
+      transform: rotate(90deg);
+
+      transition: "all 0.3s";
+      transition-timing-function: cubic-bezier(0, 2.54, 0.5, 0.51);
     }
 
+    .hour-hand {
+      width: 40%;
+      right: 50%;
+      height: 8px;
+
+    }
+
+    .min-hand {
+      height: 4px;
+    }
+
+    .second-hand {
+      height: 2px;
+    }
   </style>
 
   <script>
+    const secondHand = document.querySelector(".second-hand");
+    const hourHand = document.querySelector(".hour-hand");
+    const minHand = document.querySelector(".min-hand");
 
+    let timelements = document.querySelectorAll(".timeIndicator");
+
+    timelements.forEach((item, index) => {
+      item.style.transform = `rotate(${((index + 1) * 30) + 90}deg)`;
+      let timenum = item.querySelector(".nums");
+      timenum.style.transform = `rotate(-${((index + 1) * 30) + 90}deg)`;
+
+    })
+
+    function clock() {
+      const now = new Date();
+      const sec = now.getSeconds();
+      const secondsdeg = ((sec / 60) * 360) + 90;
+      const min = now.getMinutes();
+      const minutedeg = ((min / 60) * 360) + 90
+      const hour = now.getHours();
+      const hoursdeg = ((hour / 12) * 360) + 90
+
+
+      secondHand.style.transform = `rotate(${secondsdeg}deg)`
+      if (secondHand == 90) { secondHand.style.transition = "all 0ms"; }
+
+      minHand.style.transform = `rotate(${minutedeg}deg)`
+      hourHand.style.transform = `rotate(${hoursdeg}deg)`
+
+
+    }
+
+    setInterval(clock, 1000);
 
   </script>
 </body>
+
 </html>
